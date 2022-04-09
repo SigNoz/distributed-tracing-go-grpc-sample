@@ -1,0 +1,62 @@
+
+syntax = "proto3";
+
+package employee;
+
+option go_package = "github.comcast.com/vabira200/go-grpc-crud-example/employee";
+
+message Employee {
+   string id = 1;
+   string employeeId = 2;
+   string name = 3;
+   string level = 4;
+   string description = 5;
+}
+  
+message CreateEmployeeRequest {
+    Employee employee = 1;
+}
+  
+message CreateEmployeeResponse {
+   Employee employee = 1; // will have a employee id
+}
+  
+message ReadEmployeeRequest {
+   string employeeId = 1;
+}
+  
+message ReadEmployeeResponse {
+   Employee employee = 1;
+}
+  
+message UpdateEmployeeRequest {
+   Employee employee = 1;
+}
+  
+message UpdateEmployeeResponse {
+   Employee employee = 1;
+}
+  
+message DeleteEmployeeRequest {
+   string employeeId = 1;
+}
+  
+message DeleteEmployeeResponse {
+   string employeeId = 1;
+}
+  
+message ListEmployeeRequest {
+  
+}
+  
+message ListEmployeeResponse {
+   Employee employee = 1;
+}
+  
+service EmployeeService {
+   rpc CreateEmployee (CreateEmployeeRequest) returns (CreateEmployeeResponse);
+   rpc ReadEmployee (ReadEmployeeRequest) returns (ReadEmployeeResponse); // return NOT_FOUND if not found
+   rpc UpdateEmployee (UpdateEmployeeRequest) returns (UpdateEmployeeResponse); // return NOT_FOUND if not found
+   rpc DeleteEmployee (DeleteEmployeeRequest) returns (DeleteEmployeeResponse); // return NOT_FOUND if not found
+   rpc ListEmployee (ListEmployeeRequest) returns (stream ListEmployeeResponse); // For Sever Streaming
+}
