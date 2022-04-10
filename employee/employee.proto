@@ -58,5 +58,5 @@ service EmployeeService {
    rpc ReadEmployee (ReadEmployeeRequest) returns (ReadEmployeeResponse); // return NOT_FOUND if not found
    rpc UpdateEmployee (UpdateEmployeeRequest) returns (UpdateEmployeeResponse); // return NOT_FOUND if not found
    rpc DeleteEmployee (DeleteEmployeeRequest) returns (DeleteEmployeeResponse); // return NOT_FOUND if not found
-   rpc ListEmployee (ListEmployeeRequest) returns (stream ListEmployeeResponse); // For Sever Streaming
+   rpc ListEmployee (ListEmployeeRequest) returns (stream ListEmployeeResponse); // For Server Streaming
 }
