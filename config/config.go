@@ -56,8 +56,7 @@ func Init() *sdktrace.TracerProvider {
 
 	traceProvider := sdktrace.NewTracerProvider(
 		sdktrace.WithSampler(sdktrace.AlwaysSample()),
-		sdktrace.WithSpanProcessor(sdktrace.NewBatchSpanProcessor(exporter)),
-		sdktrace.WithSyncer(exporter),
+		sdktrace.WithBatcher(exporter),
 		sdktrace.WithResource(resources),
 	)
 
