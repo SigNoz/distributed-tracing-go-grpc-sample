@@ -217,7 +217,7 @@ func (s *server) ListEmployee(_ *employeepc.ListEmployeeRequest, stream employee
 
 func main() {
 	err := godotenv.Load()
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		log.Fatal("Error loading .env file for server", err)
 	}
 	mongo_url := os.Getenv("MONGO_URL")
