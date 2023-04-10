@@ -1,0 +1,34 @@
+version: "2.4"
+services:
+  mongodb:
+    image: mongo:6.0.5
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    # ports:
+    #   - 27017:27017
+  client:
+    image: signoz/golang-grpc-distributed-tracing:client
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    extra_hosts:
+      - signoz:host-gateway
+    environment:
+      SERVER_URL: server:4041
+      OTEL_EXPORTER_OTLP_ENDPOINT: signoz:4317
+      OTEL_SERVICE_NAME: go-grpc-otel-client
+      INSECURE_MODE: true
+  server:
+    image: signoz/golang-grpc-distributed-tracing:server
+    restart: unless-stopped
+    # ports:
+    #   - "4041:4041"
+    extra_hosts:
+      - signoz:host-gateway
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/employeedb
+      OTEL_EXPORTER_OTLP_ENDPOINT: signoz:4317
+      OTEL_SERVICE_NAME: go-grpc-otel-server
+      INSECURE_MODE: true
