@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -19,7 +20,7 @@ import (
 func main() {
 
 	err := godotenv.Load()
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		log.Fatal("Error loading .env file for client", err)
 	}
 
@@ -32,7 +33,9 @@ func main() {
 
 	fmt.Println("Employee Client")
 
-	cc, err := grpc.Dial("localhost:4041", grpc.WithTransportCredentials(insecure.NewCredentials()),
+	serverUrl := os.Getenv("SERVER_URL")
+
+	cc, err := grpc.Dial(serverUrl, grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
 		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
 	)
