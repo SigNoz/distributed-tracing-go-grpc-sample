@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package employee;
 
-option go_package = "github.comcast.com/vabira200/go-grpc-crud-example/employee";
+option go_package = "github.com/SigNoz/distributed-tracing-go-grpc-sample/employee";
 
 message Employee {
    string id = 1;

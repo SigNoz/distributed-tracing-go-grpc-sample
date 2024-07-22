@@ -18,26 +18,17 @@ import (
 // Init configures an OpenTelemetry exporter and trace provider
 func Init() *sdktrace.TracerProvider {
 	var (
-		serviceName  = os.Getenv("OTEL_SERVICE_NAME")
-		signozToken  = os.Getenv("SIGNOZ_ACCESS_TOKEN")
+		serviceName  = os.Getenv("SERVICE_NAME")
 		collectorURL = os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
-		insecure     = os.Getenv("INSECURE_MODE")
 	)
-	headers := map[string]string{
-		"signoz-access-token": signozToken,
-	}
 
 	secureOption := otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, ""))
-	if len(insecure) > 0 {
-		secureOption = otlptracegrpc.WithInsecure()
-	}
 
 	exporter, err := otlptrace.New(
 		context.Background(),
 		otlptracegrpc.NewClient(
 			secureOption,
 			otlptracegrpc.WithEndpoint(collectorURL),
-			otlptracegrpc.WithHeaders(headers),
 		),
 	)
 

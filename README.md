@@ -35,13 +35,13 @@ Start go grpc server and grpc client using below commands
 1. Grpc-Server
 ```
 cd server
-go run server.go
+SERVICE_NAME=goAppServer OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=YOUR_SIGNOZ_ACCESS_TOKEN OTEL_EXPORTER_OTLP_ENDPOINT=YOUR_COLLECTOR_ENDPOINT go run .
 ```
 
 2. Grpc-Client
 ```
 cd client
-go run client.go
+SERVICE_NAME=goAppClient OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=YOUR_SIGNOZ_ACCESS_TOKEN OTEL_EXPORTER_OTLP_ENDPOINT=YOUR_COLLECTOR_ENDPOINT  go run .
 ```
 
 View traces and metrics at http://localhost:3301/

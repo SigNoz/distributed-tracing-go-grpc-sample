@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/SigNoz/distributed-tracing-go-grpc-sample/config"
+	employeepb "github.com/SigNoz/distributed-tracing-go-grpc-sample/employee"
 	"github.com/joho/godotenv"
-	"github.comcast.com/vabira200/go-grpc-crud-example/config"
-	employeepb "github.comcast.com/vabira200/go-grpc-crud-example/employee"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -35,9 +35,8 @@ func main() {
 
 	serverUrl := os.Getenv("SERVER_URL")
 
-	cc, err := grpc.Dial(serverUrl, grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
-		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()),
+	cc, err := grpc.NewClient(serverUrl, grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 	)
 	if err != nil {
 		log.Fatalf("could not connect: %v", err)

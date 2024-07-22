@@ -18,7 +18,7 @@ services:
     environment:
       SERVER_URL: server:4041
       OTEL_EXPORTER_OTLP_ENDPOINT: signoz:4317
-      OTEL_SERVICE_NAME: go-grpc-otel-client
+      SERVICE_NAME: go-grpc-otel-client
       INSECURE_MODE: "true"
   server:
     image: signoz/golang-grpc-distributed-tracing:server
@@ -30,5 +30,5 @@ services:
     environment:
       MONGO_URL: mongodb://mongodb:27017/employeedb
       OTEL_EXPORTER_OTLP_ENDPOINT: signoz:4317
-      OTEL_SERVICE_NAME: go-grpc-otel-server
+      SERVICE_NAME: go-grpc-otel-server
       INSECURE_MODE: "true"

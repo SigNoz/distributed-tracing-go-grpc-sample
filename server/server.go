@@ -8,9 +8,9 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/SigNoz/distributed-tracing-go-grpc-sample/config"
+	employeepc "github.com/SigNoz/distributed-tracing-go-grpc-sample/employee"
 	"github.com/joho/godotenv"
-	"github.comcast.com/vabira200/go-grpc-crud-example/config"
-	employeepc "github.comcast.com/vabira200/go-grpc-crud-example/employee"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -212,7 +212,7 @@ func (s *server) ListEmployee(_ *employeepc.ListEmployeeRequest, stream employee
 			fmt.Sprintf("Unknown internal error: %v", err),
 		)
 	}
-	return nil
+	return status.Error(codes.NotFound, "Internal error")
 }
 
 func main() {
@@ -251,10 +251,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer(
-		grpc.UnaryInterceptor(otelgrpc.UnaryServerInterceptor()),
-		grpc.StreamInterceptor(otelgrpc.StreamServerInterceptor()),
-	)
+	s := grpc.NewServer(grpc.StatsHandler(otelgrpc.NewServerHandler()))
 
 	employeepc.RegisterEmployeeServiceServer(s, &server{})
 
